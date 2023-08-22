@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './App.css';
 import CurrentLocation from './currentLocation';
+import ReactAnimatedWeather from "react-animated-weather" ; 
 function App() {
   const [data, setData] = useState({ "coord": { "lon": 77.2167, "lat": 28.6667 }, "weather": [{ "id": 721, "main": "Haze", "description": "haze", "icon": "50d" }, { "id": 500, "main": "Rain", "description": "light rain", "icon": "10d" }], "base": "stations", "main": { "temp": 91.49, "feels_like": 104.09, "temp_min": 91.49, "temp_max": 91.49, "pressure": 1003, "humidity": 66 }, "visibility": 4000, "wind": { "speed": 10.36, "deg": 260 }, "rain": { "1h": 1 }, "clouds": { "all": 40 }, "dt": 1692684625, "sys": { "type": 1, "id": 9165, "country": "IN", "sunrise": 1692663833, "sunset": 1692710692 }, "timezone": 19800, "id": 1273294, "name": "Delhi", "cod": 200 })
   const [location, setLocation] = useState('')
@@ -15,6 +16,40 @@ function App() {
     }
     //setLocation('') ; 
   }
+
+  function setIcons(desc){
+    console.log(desc) ; 
+    switch (desc) {
+      case "Haze":
+        return "CLEAR_DAY" ; 
+      case "Clouds":
+        return "CLOUDY" ; 
+        break;
+      case "Rain":
+        return "RAIN" ; 
+      case "Snow":
+        return "SNOW" ;  
+      case "Dust":
+        return "WIND" ; 
+      case "Drizzle":
+        return "SLEET" ; 
+      case "Fog":
+        return "FOG";
+      case "Smoke":
+        return "FOG";
+      case "Tornado":
+        return "WIND";
+      default:
+        return "CLEAR_DAY";
+    }
+  };
+
+  const defaults = {
+    color: "white",
+    size: 112,
+    animate: true,
+  };
+
   return (
     <div className="App">
       <div className='complete'>
@@ -36,7 +71,10 @@ function App() {
               <div className='description'>
                 <p>{data.weather[0].main}</p>
               </div>
-            </div>
+              <div>
+              <ReactAnimatedWeather icon={setIcons(data.weather[0].main)} color="white" size={112} animate={true} />
+              </div>
+                </div>
             <div>
             <CurrentLocation />
           <div className='bottom'>
